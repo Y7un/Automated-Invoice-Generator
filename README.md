@@ -6,6 +6,9 @@ https://docs.google.com/spreadsheets/d/16PhT_Qnf3Qy_ZAwmIajP630_V3RE_iQk47724Y8j
 #Google Docs
 https://docs.google.com/document/d/1stLR_n6SWAdPEPsi0gbe3f6r63kgolMd6HcC1ywNt30/edit?usp=sharing
 
+#Notion
+https://www.notion.so/Invoice-Generator-Payment-Tracker-ac4da496f2dd4096a01037432c0da4bf?pvs=4
+
 ## Overview
 
 This project consists of a Google Apps Script that automatically generates Google Docs from a Google Sheets spreadsheet. The generated documents are based on a provided template and are populated with data from the spreadsheet, including calculated total amounts for each item.
