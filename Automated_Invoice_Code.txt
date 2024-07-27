@@ -33,9 +33,9 @@ function createNewGoogleDocs() {
         body.replaceText('{{Invoice No}}', row[3] || '');
 
         // Parse the description, price, and quantity
-        const descriptions = row[4].split('/');
-        const prices = row[5].split('/');
-        const quantities = row[6].split('/');
+        const descriptions = row[4].split('/').filter(Boolean);
+        const prices = row[5].split('/').filter(Boolean);
+        const quantities = row[6].split('/').filter(Boolean);
 
         for (let i = 0; i < 5; i++) {
           const description = descriptions[i] || 'NULL';
