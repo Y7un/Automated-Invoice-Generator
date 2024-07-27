@@ -1,7 +1,7 @@
 # Automated Invoice Project
 ## Links
 #Google SpreadSheet
-https://docs.google.com/spreadsheets/d/16PhT_Qnf3Qy_ZAwmIajP630_V3RE_iQk47724Y8jUnM/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/12-JCm8-ne4afMoKSnLgGnKTtUZWOaQUsjB53qL0Tv7k/edit?usp=sharing
 
 #Google Docs
 https://docs.google.com/document/d/1stLR_n6SWAdPEPsi0gbe3f6r63kgolMd6HcC1ywNt30/edit?usp=sharing
@@ -60,7 +60,7 @@ function createNewGoogleDocs() {
   try {
     const googleDocTemplate = DriveApp.getFileById(googleDocTemplateId);
     const destinationFolder = DriveApp.getFolderById(destinationFolderId);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Form responses 1');
     
     // Find the last row with data
     const lastRow = sheet.getLastRow();
@@ -68,22 +68,22 @@ function createNewGoogleDocs() {
     const rows = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).getValues();
 
     rows.forEach((row, index) => {
-      if (row[5] && row[6]) {  // Ensure that Price and Quantity columns have data
-        const copy = googleDocTemplate.makeCopy(`${row[0]} Company Details`, destinationFolder);
+      if (row[6] && row[7]) {  // Ensure that Price and Quantity columns have data
+        const copy = googleDocTemplate.makeCopy(`${row[1]} Company Details`, destinationFolder);
         const doc = DocumentApp.openById(copy.getId());
         const body = doc.getBody();
-        const dateValue = new Date(row[2]);
+        const dateValue = new Date(row[3]);
         const friendlyDate = Utilities.formatDate(dateValue, Session.getScriptTimeZone(), "dd/MM/yyyy");
 
-        body.replaceText('{{Company Name}}', row[0] || '');
-        body.replaceText('{{Company Address}}', row[1] || '');
+        body.replaceText('{{Company Name}}', row[1] || '');
+        body.replaceText('{{Company Address}}', row[2] || '');
         body.replaceText('{{Invoice Date}}', friendlyDate);
-        body.replaceText('{{Invoice No}}', row[3] || '');
+        body.replaceText('{{Invoice No}}', row[4] || '');
 
         // Parse the description, price, and quantity
-        const descriptions = row[4].split('/').filter(Boolean);
-        const prices = row[5].split('/').filter(Boolean);
-        const quantities = row[6].split('/').filter(Boolean);
+        const descriptions = row[5].split('/').filter(Boolean);
+        const prices = row[6].split('/').filter(Boolean);
+        const quantities = row[7].split('/').filter(Boolean);
 
         for (let i = 0; i < 5; i++) {
           const description = descriptions[i] || 'NULL';
@@ -99,18 +99,19 @@ function createNewGoogleDocs() {
           body.replaceText(`{{Total Amount ${i + 1}}}`, totalAmount);
         }
 
-        body.replaceText('{{Sub Total}}', row[12] || '');
-        body.replaceText('{{Grand Total}}', row[13] || '');
+        body.replaceText('{{Sub Total}}', row[13] || '');
+        body.replaceText('{{Grand Total}}', row[14] || '');
 
         doc.saveAndClose();
         const url = doc.getUrl();
-        sheet.getRange(index + 2, 15).setValue(url);  // Adjust index + 2 to match row number
+        sheet.getRange(index + 2, 16).setValue(url);  // Adjust index + 2 to match row number
       }
     });
   } catch (e) {
     Logger.log(`Error: ${e.message}`);
   }
 }
+
 ```
 
 ## Usage
