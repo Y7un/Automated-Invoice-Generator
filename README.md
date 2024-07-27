@@ -122,6 +122,3 @@ function createNewGoogleDocs() {
 - If there are fewer than 5 items, the placeholders for the missing items will be set to `'NULL'`.
 - The script assumes the data in the spreadsheet is formatted correctly and separated by `/` where applicable.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
