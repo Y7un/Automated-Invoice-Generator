@@ -1,0 +1,65 @@
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  const menu = ui.createMenu('AutoFill Docs');
+  menu.addItem('Create New Docs', 'createNewGoogleDocs');
+  menu.addToUi();
+}
+
+function createNewGoogleDocs() {
+  const googleDocTemplateId = '1stLR_n6SWAdPEPsi0gbe3f6r63kgolMd6HcC1ywNt30';
+  const destinationFolderId = '1AiaisD-7Qm4CuQ29sQMI_K-9oaoP6E8C';
+
+  try {
+    const googleDocTemplate = DriveApp.getFileById(googleDocTemplateId);
+    const destinationFolder = DriveApp.getFolderById(destinationFolderId);
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
+    
+    // Find the last row with data
+    const lastRow = sheet.getLastRow();
+    // Get data starting from row 2
+    const rows = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).getValues();
+
+    rows.forEach((row, index) => {
+      if (row[5] && row[6]) {  // Ensure that Price and Quantity columns have data
+        const copy = googleDocTemplate.makeCopy(`${row[0]} Company Details`, destinationFolder);
+        const doc = DocumentApp.openById(copy.getId());
+        const body = doc.getBody();
+        const dateValue = new Date(row[2]);
+        const friendlyDate = Utilities.formatDate(dateValue, Session.getScriptTimeZone(), "dd/MM/yyyy");
+
+        body.replaceText('{{Company Name}}', row[0] || '');
+        body.replaceText('{{Company Address}}', row[1] || '');
+        body.replaceText('{{Invoice Date}}', friendlyDate);
+        body.replaceText('{{Invoice No}}', row[3] || '');
+
+        // Parse the description, price, and quantity
+        const descriptions = row[4].split('/');
+        const prices = row[5].split('/');
+        const quantities = row[6].split('/');
+
+        for (let i = 0; i < 5; i++) {
+          const description = descriptions[i] || 'NULL';
+          const price = prices[i] || 'NULL';
+          const quantity = quantities[i] || 'NULL';
+
+          // Calculate total amount for each item
+          const totalAmount = (price !== 'NULL' && quantity !== 'NULL') ? (parseFloat(price) * parseFloat(quantity)).toFixed(2) : 'NULL';
+
+          body.replaceText(`{{Description ${i + 1}}}`, description);
+          body.replaceText(`{{Price ${i + 1}}}`, price);
+          body.replaceText(`{{Quantity ${i + 1}}}`, quantity);
+          body.replaceText(`{{Total Amount ${i + 1}}}`, totalAmount);
+        }
+
+        body.replaceText('{{Sub Total}}', row[12] || '');
+        body.replaceText('{{Grand Total}}', row[13] || '');
+
+        doc.saveAndClose();
+        const url = doc.getUrl();
+        sheet.getRange(index + 2, 15).setValue(url);  // Adjust index + 2 to match row number
+      }
+    });
+  } catch (e) {
+    Logger.log(`Error: ${e.message}`);
+  }
+}
