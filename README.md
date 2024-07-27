@@ -54,8 +54,8 @@ function onOpen() {
 }
 
 function createNewGoogleDocs() {
-  const googleDocTemplateId = 'YOUR_TEMPLATE_ID';
-  const destinationFolderId = 'YOUR_FOLDER_ID';
+  const googleDocTemplateId = '1stLR_n6SWAdPEPsi0gbe3f6r63kgolMd6HcC1ywNt30';
+  const destinationFolderId = '1AiaisD-7Qm4CuQ29sQMI_K-9oaoP6E8C';
 
   try {
     const googleDocTemplate = DriveApp.getFileById(googleDocTemplateId);
@@ -99,12 +99,12 @@ function createNewGoogleDocs() {
           body.replaceText(`{{Total Amount ${i + 1}}}`, totalAmount);
         }
 
-        body.replaceText('{{Sub Total}}', row[8] || '');
-        body.replaceText('{{Grand Total}}', row[9] || '');
+        body.replaceText('{{Sub Total}}', row[12] || '');
+        body.replaceText('{{Grand Total}}', row[13] || '');
 
         doc.saveAndClose();
         const url = doc.getUrl();
-        sheet.getRange(index + 2, 11).setValue(url);  // Adjust index + 2 to match row number
+        sheet.getRange(index + 2, 15).setValue(url);  // Adjust index + 2 to match row number
       }
     });
   } catch (e) {
