@@ -1,7 +1,7 @@
 # Automated Invoice Project
 ## Links
 #Google SpreadSheet
-https://docs.google.com/spreadsheets/d/12-JCm8-ne4afMoKSnLgGnKTtUZWOaQUsjB53qL0Tv7k/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/1-idj-i378g55cMq_t_8ntNyjHfXC9dakxklBkPufZn4/edit?usp=sharing
 
 #Google Docs
 https://docs.google.com/document/d/1stLR_n6SWAdPEPsi0gbe3f6r63kgolMd6HcC1ywNt30/edit?usp=sharing
