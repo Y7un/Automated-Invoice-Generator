@@ -53,6 +53,7 @@ function onOpen() {
   menu.addToUi();
 }
 
+
 function createNewGoogleDocs() {
   const googleDocTemplateId = '1stLR_n6SWAdPEPsi0gbe3f6r63kgolMd6HcC1ywNt30';
   const destinationFolderId = '1AiaisD-7Qm4CuQ29sQMI_K-9oaoP6E8C';
@@ -60,7 +61,7 @@ function createNewGoogleDocs() {
   try {
     const googleDocTemplate = DriveApp.getFileById(googleDocTemplateId);
     const destinationFolder = DriveApp.getFolderById(destinationFolderId);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Form responses 1');
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Output Sheet');
     
     // Find the last row with data
     const lastRow = sheet.getLastRow();
